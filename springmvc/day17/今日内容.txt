@@ -1,0 +1,128 @@
+JSP
+一、JSP概述
+1.什么是JSP
+	JSP和Servlet都是由SUN提供的动态Web资源开发技术.
+	JSP看起来是一个HTML, 但是和HTML不同的是: JSP中可以书写Java代码
+	JSP本质上就是一个Servlet.
+2.JSP的由来
+	(1)Servlet本质上是一段Java程序, 适合来处理逻辑, 但是处理的结果(比如查询所有的商品)不适合由Servlet来输出给浏览器.
+	(2)html可以用来开发网页, 可以用来展示数据, 但是HTML是一个静态网页, 无法展示动态的数据
+	(3)JSP可以用来开发网页, 可以展示数据, 而且JSP中可以书写Java代码, 可以展示动态的数据.
+	(4)所以JSP既可以解决Servlet不适合展示数据的问题, 也可以解决HTML无法展示动态数据的问题!
+	
+	
+3.修改JSP模版
+	参考课件
+
+4.JSP和HTML的执行过程
+	浏览器请求一个HTML文件: 服务器根据请求的路径找到对应的xxx.html, 再将html文件(的内容)直接发送给浏览器
+
+	浏览器请求一个JSP文件: 服务器根据请求的路径找到对应的xxx.jsp, 服务器(中的JSP解析引擎)将JSP翻译为一个Servlet程序, 再执行Servlet程序, 在Servlet程序中会将所有的html内容通过out.writer原样发送给浏览器
+
+	翻译后的Servlet中的html直接发送给浏览器
+	翻译后的Servlet中的Java代码在Servlet执行时会安装顺序执行!!!
+二、JSP语法
+1.模版元素
+	所谓的模版元素其实就是能够写在JSP中的所有的HTML内容
+	除了JSP特有的内容其他的都是html内容, 都是模版元素!
+
+	JSP中的模版元素在翻译后的Servlet中: 直接被out.write原样输出给浏览器
+	示例: 
+		out.write("<!DOCTYPE html>\r\n");
+    	out.write("<html>\r\n");
+    	out.write("<head>\r\n");
+    	...
+    	
+2.JSP表达式
+	格式: <%= 常量/变量/表达式 %>
+	作用: 用来输出 常量/变量/表达式 的值
+	在翻译后的Servlet中, 计算表达式的值, 再进行输出!
+	示例:
+		<body>
+			当前时间: <%= new Date().toLocaleString() %>
+		</body>
+	
+3.JSP脚本片段
+	格式: <% 若干Java语句 %>
+	作用: 将其中的Java语句复制粘贴到(Servlet中)对应的位置执行!
+
+	某一个JSP脚本片段中的Java代码可以是不完整、不符合Java语法的，但是整体的Java代码必须是完整的、符合Java语法的！，比如：
+		<% for(int i=0;i<3;i++){ %>
+			Hello JSP.<br/>
+		<% } %>
+		<% 
+			for(int i=0;i<5;i++){
+				out.write("Hello JSP.<br/>");
+			}
+		%>
+4.JSP注释
+	html注释: <!-- 注释内容 -->
+	格式: <%-- 注释内容 --%>
+	(1)注释JSP特有的内容, 尽量使用JSP注释
+	(2)注释JSP中的模版元素(HTML内容), 可以使用html注释, 当然也可以使用JSP注释
+	(3)如果是Java代码, 也可以使用Java注释
+	
+5.JSP指令
+<%@指令名 若干属性声明 %>
+
+5.1.page指令 
+	-- 作用是声明JSP的基本属性信息(JSP使用的语言、JSP使用的编码等)
+
+	~~ 1、<%@page language="java"%>
+		可以省略不写, 指定当前JSP使用的语言是Java
+		
+	2、<%@page import="java.io.*"%>
+		导入jar包.
+		<%@page import="java.io.*"%>
+		<%@page import="java.util.Date" %>
+		提示: 在JSP中之前的快捷键大多都不能使用了,但是可以使用 Alt+/ 提示导入Jar包
+		
+	3、<%@page session="true"%> session属性的值默认是true, 表示一上来就创建session. 如果改为false, 一上来就不创建Session, 但是如果需要仍然可以自己获取session.
+		在JSP翻译后的Servlet中, 一上来就默认创建好一个Session对象. 所以可以不用获取session, 就可以直接使用!
+		
+	4、<%@page errorPage=""%>
+		errorPage属性可以为当前JSP页面指定友好错误提示页面
+		作用: 当 当前JSP页面中抛出了异常, 将不会给用户展示500错误页面, 而是给用户展示(事先提供好的)友好错误提示页面。
+		
+	!!5、<%@page pageEncoding="utf-8"%>
+		(1)JSP文件保存时使用的编码
+		(2)JSP在翻译为Servlet时使用的编码
+		(3)翻译后的Servlet向浏览器发送数据时使用的编码
+		(4)浏览器在接收服务器的数据时使用的编码
+		之所以JSP中没有乱码, 有两点:
+		a) pageEncoding属性设置了编码为utf-8可以保证上面的后三条使用的编码都是utf-8
+		b) Eclipse工具非常的智能, 在保存你的JSP文件时会参考pageEncoding属性指定的编码来保存文件!
+
+5.2.include指令 -- 可以实现请求包含、JSP页面的包含
+	<%@include ...%>
+	示例:
+		<!-- 引入头部(_header.jsp) -->
+		<%@include file="/include/_header.jsp" %>
+		
+		<h1 style="text-align:center;height:200px;
+			background:green;">
+			购物车页面的主体(main)
+		</h1>
+		
+		<!-- 引入尾部(_footer.jsp) -->
+		<%@include file="/include/_footer.jsp" %>
+5.3.taglib指令(JSTL) -- 引入JSTL标签库
+	<%@taglib ...%>
+
+三、JSP九大隐式对象
+1.什么是九大隐式对象
+	在JSP翻译为Servlet时, 一上来会默认创建一个对象, 这些对象在JSP中, 可以不用获取(也不用声明)就可以直接使用!
+	page	(等价于Servlet中的this, 表示当前Servlet示例)
+	!request			HttpServletRequest
+	!response		HttpServletResponse
+	application		ServletContext
+	config			ServletConfig
+	!session			HttpSession
+	exception
+	!out
+	pageContext
+	
+2.pageContext
+		
+四、JSP标签技术
+	

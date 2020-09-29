@@ -1,0 +1,35 @@
+-- -------------------------------------
+-- Servlet作业
+-- -------------------------------------
+1、练习用记事本开发一个Servlet，手动编译发布，当浏览器访问该Servlet时，Servlet负责将当前时间响应给浏览器。
+2、练习将tomcat服务器配置eclipse中，通过eclipse启动、关闭服务器。
+3、练习用eclipse开发一个Servlet，并通过eclipse发布WEB应用到tomcat服务器中，通过浏览器测试访问。
+========================================
+4、用自己的话向同桌描述servlet调用过程和生命周期。
+
+-- -------------------------------------
+-- Servlet扩展作业
+-- -------------------------------------
+5、利用eclipse开发一个Servlet，每当Servlet被访问时，将负责向浏览器发送当前Servlet累计被访问的次数。
+	提示：
+	1) 可以在Servlet中声明一个变量来统计Servlet累计被访问的次数(例如:clickCount)
+	2) 将统计到的访问次数，请以下面的格式发送给浏览器：
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<meta charset="utf-8" />
+			<title>click count</title>
+		</head>
+		<body>
+			<h1 style="color:red">click count: 52 times</h1>
+		</body>
+		</html>
+		将上面的访问次数替换为实际的访问次数!
+		
+6、使用eclipse开发一个Servlet程序，通过JDBC程序，从 jt_db 库中的 account 表中查询出id为1的记录，并将记录发送给浏览器。
+	提示：
+	1) 实现JDBC程序查询数据库需要提前导入数据库的驱动包
+	2) 将统计到的访问次数，请以下面的格式发送给浏览器：
+		id: 1
+		name: tomcat
+		money: 1000

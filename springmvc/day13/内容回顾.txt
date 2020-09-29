@@ -1,0 +1,97 @@
+Tomcat
+一、Tomcat服务器下载、安装、启动、配置
+1.下载: http://tomcat.apache.org
+	tomcat有很多版本, 其中包括window版本(32/64)、linux版、解压版和安装版
+	tomcat7.0解压版
+	tomcat6.0	JDK5
+	tomcat7.0	JDK6
+	tomcat8.0	JDK7
+
+2.安装
+	在安装的路径中不要包含中文和空格
+	解压版: 解压之后就可以使用
+
+3.启动
+	在启动服务器之前, 需要检查 JAVA_HOME 环境变量, 该变量用于通知服务器JDK安装在哪一个位置上
+	如果没有该变量, 则需要提前配置再启动服务器
+
+	通过 [tomcat_home]/bin/startup.bat 启动服务器
+	通过 [tomcat_home]/bin/shutdown.bat 关闭服务器 或 点击右上角的叉号关闭
+
+	测试访问: http://localhost:8080 地址
+
+4.配置
+4.1.修改tomcat服务器默认监听的端口
+	修改 conf/server.xml文件, 将70行的port属性改为80即可!(重启服务器才会生效!!)
+
+4.2.端口占用问题:
+	方式一: 运行 shutdown.bat 文件, 将服务器按照关闭的流程再关闭一次
+	方式二: 在cmd窗口中, netstat -ano, 查询占用80端口的进程id(PID), 通过 taskkill /f /pid 进程id 将占用80端口的进程结束即可!
+
+二、Tomcat服务器的目录结构
+	baidu: 是www.baidu.com虚拟主机默认管理的目录, 如果现有web应用需要发布到baidu虚拟主机中, 就可以将web应用的目录放在baidu目录下
+	bin: 批处理文件的存放目录
+	conf: 配置文件的存放目录(server.xml)
+	lib: 运行时所依赖的jar包的存放目录
+	logs: 产生的日志文件存放的目录
+	temp: 临时文件
+	webapps: 是localhost虚拟主机默认管理的目录, 如果现有web应用需要发布到localhost虚拟主机中, 就可以将web应用的目录放在webapps目录下
+	work: 工作文件的存放目录 
+
+三、Web应用
+1.什么是Web应用
+	Web应用: 就是一个目录, 是一个web资源的集合
+	
+2.Web应用的目录结构
+	news
+	 |
+	 |-- html/css/js/图片/jsp.. (放在除WEB-INF以外的目录下) 通过浏览器可以直接访问
+	 |-- WEB-INF
+	 		|
+	 		|-- classes	class文件
+	 		|-- lib		jar包
+	 		|-- web.xml	web应用的配置
+
+3.部署web应用到虚拟主机中
+	直接将web应用的目录丢进虚拟主机默认管理的目录下即可!!
+
+4.部署缺省的Web应用
+	直接将Web应用的目录名称改为 大写的 ROOT 即可!
+
+5.为Web应用配置主页
+	<welcome-file-list>
+		<welcome-file>a/b/1.html</welcome-file>
+	</welcome-file-list>
+	
+四、虚拟主机
+1.什么是虚拟主机
+	虚拟主机: 就是在服务器配置的一个站点(Host标签)
+
+2.配置虚拟主机
+	在<Engine>标签下:
+	<Host name="www.163.com" appBase="163"></Host>
+
+	配置完后, 需要到DNS服务器中配置主机名和IP地址的映射关系, 但是DNS服务器一般不能修改, 所以可以通过hosts文件来模拟.
+		127.0.0.1	www.163.com
+
+3.配置缺省的虚拟主机
+	为什么? 
+	www.baidu.com
+	localhost
+	将Engine标签上的属性 defaultHost改为 www.baidu.com 即可!
+
+五、其他相关
+1.打war包
+	体积小、传输方便
+	发布到服务器中会自动解压发布
+
+2.如何打war包
+	方式一: 在cmd中, 先进入到web应用的根目录, 通过 jar -cvf xxx.war * 命令将当前目录下的所有文件和文件夹打成一个war包
+	注意: 
+	(1)war包的名字和服务器中已发布的Web应用的名字不能重复
+	(2)自动解压发布需要服务器是启动状态
+
+	方式二: 通过压缩软件压缩Web应用中的内容, 将后缀名称改为war即可!
+	
+六、Http协议
+

@@ -1,0 +1,34 @@
+============================================
+1、Session的生命周期
+创建: 
+	第一次调用 request.getSession() 方法时创建Session对象
+销毁:
+	(1)超时销毁: 超过30分钟没有访问Session, session会超时销毁
+	(2)自杀: 调用session的invalidate方法时会立即销毁session
+	(3)意外身亡: 非正常关闭服务器时, session将会立即销毁
+		当服务器正常关闭时, session对象不会销毁, 
+		session对象将会以文件的形式保存在服务器的work目录下, 这个过程叫做session的钝化
+		当服务器再次开启时, 钝化着的session还会恢复回来, 变成服务器中的session对象, 这个过程叫做session的活化.
+
+2、绝对路径和相对路径
+	相对路径：不以斜杠（/）开头的路径是相对路径
+		index.jsp	./index.jsp	../index.jsp
+	绝对路径：以斜杠（/）开头的路径是绝对路径
+		/index.jsp	/day17/index.jsp
+		http://localhost/day17/index.jsp
+
+	在Web开发中, 推荐使用绝对路径, 因为相对路径不稳定!
+
+问题描述: 在1.html中引入了一张图片:
+	<img src="2.jpg" width="80%"/>	
+	src中是一个相对路径, 相对路径就是相对于当前资源所在的目录取寻找指定的资源
+
+直接访问1.html:
+	http://localhost/day16/a/1.html	可以访问图片
+	http://localhost/day16/a/2.jpg
+
+访问TestServlet, 再转发到1.html:
+	http://localhost/day16/TestServlet
+	http://localhost/day16/2.jpg
+	
+============================================

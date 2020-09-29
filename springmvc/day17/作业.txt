@@ -1,0 +1,20 @@
+1、向同桌描述JSP技术的由来
+2、向同桌描述JSP的九大隐式对象分别是哪九个
+3、向同桌描述Servlet（或JSP）中四大域对象的三大特征
+4、练习EL表达式和JSTL标签
+(1) 练习c:set标签的使用：
+	a)往request域中添加一个域属性为:str，值为:"Hello !"，并通过EL取出显示在JSP中
+	b)修改request域中str属性, 将值改为:"Hello JSTL !"，并通过EL取出显示在JSP中
+	c)往域中存入一个map集合（并往map集合中存入一些元素），通过c:set标签修改map集合中的属性，并通过EL取出显示在JSP中
+(2) 练习c:if标签的使用
+(3) 练习c:forEach标签的使用：
+	a)遍历域中数组或集合中的元素，例如：
+		数组：String names = {"张三", "李四", "王五", "赵四", "刘能"};
+	b)遍历域中map集合中的元素
+		Map集合：Map map = new HashMap();
+				map.put("name", "张三");
+				map.put("age", "38");
+				map.put("addr", "北京");
+				map.put("job", "Java高级工程师");
+	c)打印50~200之间的奇数，并指定间隔符号
+	d)打印50~200之间的奇数并指定间隔符号，并将位置是5的倍数的数值指定颜色为绿色

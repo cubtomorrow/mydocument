@@ -1,0 +1,27 @@
+-- -------------------------------------
+-- Request作业
+-- -------------------------------------
+1、获取请求参数：分别使用GET提交和POST提交向服务器发送请求参数
+	(1)创建一个Servlet(TestDemo1)，来获取GET提交的参数并打印，同时处理中文参数乱码
+	(2)创建一个Servlet(TestDemo2)，来获取POST提交的参数并打印，同时处理中文参数乱码
+	提示：可以使用[day14]/作业/form.html表单来提交参数
+
+2、域对象及请求转发：将TestDemo2中获取的参数(解决乱码之后的参数)通过request域带到index.jsp页面显示出来。
+	提示：在JSP中可以通过下面的方式取出request域中的数据:
+		...
+		<body>
+			用户名：<%= request.getAttribute("username") %>	<br/><br/>
+			密码：<%= request.getAttribute("password") %>	<br/><br/>
+			昵称：<%= request.getAttribute("nickname") %>	<br/><br/>
+			个人简介：<%= request.getAttribute("desc") %>		<br/><br/>
+		</body>
+		...
+-- -------------------------------------
+-- Response作业
+-- -------------------------------------
+3、分别使用 getOutputStream 和 getWriter 向浏览器发送数据，并处理乱码问题。
+	(1)创建一个Servlet(TestDemo3),在其中通过getOutputStream发送"xxxx中文"到浏览器,解决乱码
+	(2)创建一个Servlet(TestDemo4),在其中通过getWriter发送"xxxx中文"到浏览器,解决乱码
+4、创建Servlet，接收浏览器的请求，模拟用户登陆成功3秒将会跳转到首页。
+	(1)创建index.html(或者index.jsp)作为网站首页
+	(2)创建LoginServlet，先提示用户“恭喜您登陆成功，3秒之后将会跳转到首页...”，并在3秒后跳转首页！
